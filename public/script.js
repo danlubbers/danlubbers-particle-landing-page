@@ -16,7 +16,7 @@ const mouse = {
 window.addEventListener("mousemove", (e) => {
   mouse.x = e.x;
   mouse.y = e.y;
-  console.log(mouse.x, mouse.y);
+  // console.log(mouse.x, mouse.y);
 });
 
 const myFont = new FontFace("myFont", "url(../assets/fonts/Gotham-Thin.otf)");
@@ -99,3 +99,59 @@ myFont.load().then((font) => {
     canvas.height / 2 - 100
   );
 });
+
+// const data = ctx.getImageData(0, 0, 100, 100);
+
+class Particle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.radiusSize = 1;
+    this.baseX = this.x;
+    this.baseY = this.y;
+    this.density = Math.random() * 30 + 1;
+  }
+
+  draw() {
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radiusSize, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  update() {
+    let distanceX = mouse.x - this.x;
+    let distanceY = mouse.y - this.y;
+    let distanceBetweenXandY = Math.sqrt(
+      distanceX * distanceX + distanceY * distanceY
+    );
+    if (distanceBetweenXandY < 100) {
+      this.radiusSize = 10;
+    } else {
+      this.radiusSize = 1;
+    }
+  }
+}
+
+const init = () => {
+  particleArray = [];
+  let howManyParticles = 500;
+  for (let i = 0; i < howManyParticles; i++) {
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height;
+
+    particleArray.push(new Particle(x, y));
+  }
+};
+init();
+
+const animate = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < particleArray.length; i++) {
+    particleArray[i].draw();
+    particleArray[i].update();
+  }
+  requestAnimationFrame(animate);
+};
+animate();
