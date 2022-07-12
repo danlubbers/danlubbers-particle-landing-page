@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(270deg, black, #121213);
+    background-size: 400% 400%;
+    z-index: 1;
+}
+
