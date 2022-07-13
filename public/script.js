@@ -16,6 +16,7 @@ const mouse = {
 window.addEventListener("mousemove", (e) => {
   mouse.x = e.x;
   mouse.y = e.y;
+  mouse.radius = 150;
   // console.log(mouse.x, mouse.y);
 });
 
@@ -126,8 +127,17 @@ class Particle {
     let distanceBetweenXandY = Math.sqrt(
       distanceX * distanceX + distanceY * distanceY
     );
-    if (distanceBetweenXandY < 100) {
-      this.radiusSize = 10;
+    let forceDirectionX = distanceX / distanceBetweenXandY;
+    let forceDirectionY = distanceY / distanceBetweenXandY;
+    let maxDistance = mouse.radius;
+    // Ex. maxDistance = 100; distanceBetweenXandY = 20
+    // force = 0.8 'particle current speed is now 20% slower
+    let force = (maxDistance - distanceBetweenXandY) / maxDistance;
+    let directionX = forceDirectionX * force * this.density;
+    let directionY = forceDirectionY * force * this.density;
+    if (distanceBetweenXandY < mouse.radius) {
+      this.x -= directionX;
+      this.y -= directionY;
     } else {
       this.radiusSize = 1;
     }
