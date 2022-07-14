@@ -1,167 +1,151 @@
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const newFont = new FontFace(
+  "Gotham-Thin",
+  `url("/assets/fonts/Gotham-Thin.otf")`
+);
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+newFont
+  .load()
+  .then((font) => {
+    document.fonts.add(font);
+  })
+  .then(() => {
+    let particles = [];
+    let frequency = 40;
+    // Populate particles
+    setInterval(() => populate(), frequency);
 
-let particleArray = [];
+    let c1 = createCanvas({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+    let c2 = createCanvas({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+    let c3 = createCanvas({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
 
-// handle mouse interactions
-const mouse = {
-  x: null,
-  y: null,
-  radius: 150,
-};
+    let tela = c1.canvas;
+    let canvas = c1.context;
 
-window.addEventListener("mousemove", (e) => {
-  mouse.x = e.x;
-  mouse.y = e.y;
-  mouse.radius = 150;
-  // console.log(mouse.x, mouse.y);
-});
+    document.querySelector("body").appendChild(c3.canvas);
 
-const myFont = new FontFace("myFont", "url(../assets/fonts/Gotham-Thin.otf)");
+    writeText(c2.canvas, c2.context, "DANLUBBERS");
 
-// DANLUBBERS
-myFont.load().then((font) => {
-  document.fonts.add(font);
+    class Particle {
+      constructor(canvas, options) {
+        this.canvas = canvas;
+        this.x = options.x;
+        this.y = options.y;
+        this.s = 3 + Math.random();
+        this.a = 0;
+        this.w = window.innerWidth;
+        this.h = window.innerHeight;
+        this.radius = 0.5 + Math.random() * 20;
+        this.color = this.randomColor();
+      }
 
-  const changeGradientWidthC = (widthDiff) => {
-    const gradient = ctx.createLinearGradient(
-      0,
-      0,
-      canvas.width - widthDiff,
-      0
-    );
-    gradient.addColorStop(0, "grey");
-    gradient.addColorStop(0.5, "grey");
-    gradient.addColorStop(0.5, "red");
-    gradient.addColorStop(1, "red");
-    ctx.globalAlpha = 0.7;
-    ctx.fillStyle = gradient;
-  };
+      randomColor() {
+        let colors = ["#a52a25"];
+        return colors[this.randomIntFromInterval(0, colors.length - 1)];
+      }
 
-  if (canvas.width > 1600) {
-    changeGradientWidthC(250);
-    ctx.font = "100px myFont";
-  }
-  if (canvas.width < 1600 && canvas.width > 1200) {
-    changeGradientWidthC(200);
-    ctx.font = "75px myFont";
-  }
-  if (canvas.width < 1200) {
-    changeGradientWidthC(160);
-    ctx.font = "60px myFont";
-  }
-  ctx.textAlign = "center";
-  ctx.fillText("DANLUBBERS", canvas.width / 2, canvas.height / 2 - 175);
-});
+      randomIntFromInterval(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
 
-// Photography / Retouching
-myFont.load().then((font) => {
-  document.fonts.add(font);
-  ctx.globalAlpha = 0.6;
-  ctx.fillStyle = "white";
-  if (canvas.width > 1600) {
-    ctx.font = "50px myFont";
-  }
-  if (canvas.width < 1600 && canvas.width > 1200) {
-    ctx.font = "40px myFont";
-  }
-  if (canvas.width < 1200) {
-    ctx.font = "30px myFont";
-  }
-  ctx.textAlign = "right";
-  ctx.fillText(
-    "Photography / Retouching",
-    canvas.width / 2,
-    canvas.height / 2 - 100
-  );
-});
+      render() {
+        this.canvas.beginPath();
+        this.canvas.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        this.canvas.lineWidth = 2;
+        this.canvas.fillStyle = this.color;
+        this.canvas.fill();
+        this.canvas.closePath();
+      }
 
-// Web Development
-myFont.load().then((font) => {
-  document.fonts.add(font);
-  ctx.globalAlpha = 0.6;
-  ctx.fillStyle = "white";
-  if (canvas.width > 1600) {
-    ctx.font = "50px myFont";
-  }
-  if (canvas.width < 1600 && canvas.width > 1200) {
-    ctx.font = "40px myFont";
-  }
-  if (canvas.width < 1200) {
-    ctx.font = "30px myFont";
-  }
-  ctx.textAlign = "left";
-  ctx.fillText(
-    "Web Development",
-    canvas.width / 2 + 100,
-    canvas.height / 2 - 100
-  );
-});
+      move() {
+        //this.swapColor()
+        this.x += Math.cos(this.a) * this.s;
+        this.y += Math.sin(this.a) * this.s;
+        this.a += Math.random() * 0.8 - 0.4;
 
-// const data = ctx.getImageData(0, 0, 100, 100);
+        if (this.x < 0 || this.x > this.w - this.radius) {
+          return false;
+        }
 
-class Particle {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.radiusSize = 1;
-    this.baseX = this.x;
-    this.baseY = this.y;
-    this.density = Math.random() * 30 + 1;
-  }
-
-  draw() {
-    ctx.fillStyle = "white";
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radiusSize, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  update() {
-    let distanceX = mouse.x - this.x;
-    let distanceY = mouse.y - this.y;
-    let distanceBetweenXandY = Math.sqrt(
-      distanceX * distanceX + distanceY * distanceY
-    );
-    let forceDirectionX = distanceX / distanceBetweenXandY;
-    let forceDirectionY = distanceY / distanceBetweenXandY;
-    let maxDistance = mouse.radius;
-    // Ex. maxDistance = 100; distanceBetweenXandY = 20
-    // force = 0.8 'particle current speed is now 20% slower
-    let force = (maxDistance - distanceBetweenXandY) / maxDistance;
-    let directionX = forceDirectionX * force * this.density;
-    let directionY = forceDirectionY * force * this.density;
-    if (distanceBetweenXandY < mouse.radius) {
-      this.x -= directionX;
-      this.y -= directionY;
-    } else {
-      this.radiusSize = 1;
+        if (this.y < 0 || this.y > this.h - this.radius) {
+          return false;
+        }
+        this.render();
+        return true;
+      }
     }
-  }
-}
 
-const init = () => {
-  particleArray = [];
-  let howManyParticles = 500;
-  for (let i = 0; i < howManyParticles; i++) {
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height;
+    function createCanvas(properties) {
+      let canvas = document.createElement("canvas");
+      canvas.width = properties.width;
+      canvas.height = properties.height;
+      let context = canvas.getContext("2d");
+      return {
+        canvas,
+        context,
+      };
+    }
 
-    particleArray.push(new Particle(x, y));
-  }
-};
-init();
+    function writeText(canvas, context, text) {
+      let size = 8;
+      context.font = `${size}rem Gotham-Thin`;
+      context.fillStyle = "#111111";
+      context.textAlign = "center";
+      context.fillText(text, canvas.width / 2, canvas.height / 2 - 175);
+    }
 
-const animate = () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < particleArray.length; i++) {
-    particleArray[i].draw();
-    particleArray[i].update();
-  }
-  requestAnimationFrame(animate);
-};
-animate();
+    function maskCanvas() {
+      c3.context.drawImage(c2.canvas, 0, 0, c2.canvas.width, c2.canvas.height);
+      c3.context.globalCompositeOperation = "source-atop";
+      c3.context.drawImage(c1.canvas, 0, 0);
+      blur(c1.context, c1.canvas, 2);
+    }
+
+    function blur(ctx, canvas, amt) {
+      ctx.filter = `blur(${amt}px)`;
+      ctx.drawImage(canvas, 0, 0);
+      ctx.filter = "none";
+    }
+
+    /*
+     * Function to clear layer canvas
+     * @num:number number of particles
+     */
+    function populate() {
+      particles.push(
+        new Particle(canvas, {
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+        })
+      );
+    }
+
+    function clear() {
+      canvas.globalAlpha = 0.03;
+      canvas.fillStyle = "#111111";
+      canvas.fillRect(0, 0, tela.width, tela.height);
+      canvas.globalAlpha = 1;
+    }
+
+    function update() {
+      clear();
+      particles = particles.filter((p) => p.move());
+      maskCanvas();
+      requestAnimationFrame(update.bind(this));
+    }
+
+    update();
+  });
+
+// Buttons
+// document.querySelector("#photography").addEventListener("click", () => {
+//   console.log("hit");
+// });

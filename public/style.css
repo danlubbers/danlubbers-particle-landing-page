@@ -1,19 +1,47 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*,
+*::after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 62.5%; /* This equals 10px so 1 rem = 10px ( 10rem / 16px = .625%) */
 }
 
 body {
-    overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(17, 17, 18);
+}
+
+.button-container {
+  width: 100%;
+  height: 100%;
+  margin-top: 50rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+button {
+  font-family: "Gotham-Thin", sans-serif;
+  letter-spacing: 0.4rem;
+  border: none;
+  background-color: transparent;
+  z-index: 20;
+}
+
+a {
+  color: #969696;
+  font-size: 3.2rem;
+  text-decoration: none;
 }
 
 canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: linear-gradient(270deg, black, #121213);
-    background-size: 400% 400%;
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
-
