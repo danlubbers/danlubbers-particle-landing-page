@@ -16,7 +16,7 @@
       <button aria-label="link to photography & retouching website">
         <a
           href="https://danlubbersphotographs.com"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           Photography / Retouching</a
         >
@@ -24,11 +24,44 @@
       <button aria-label="link to web development website">
         <a
         href="https://webdev.danlubbers.com"        
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         Web Development</a></button>
         </div>
     </div>
     <script src="script.js"></script>
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-1733817-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    <script type="application/ld+json">
+      {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Louisville",
+        "addressRegion": "KY"
+      },
+      "givenName": "Dan",
+      "familyName": "Lubbers",
+      "alumniOf": [
+        "AlbanyCanCode"
+        "DevMountain",
+        "Bellarmine University",
+      ],
+      "url": "https://danlubbers.com",
+      "sameAs" : [
+        "https://webdev.danlubbers.com",
+        "https://danlubbersphotographs.com",
+        "https://github.com/danlubbers",
+        "https://www.linkedin.com/in/danlubbers/"
+      ]
+    }
+  </script>
   </body>
 </html>
