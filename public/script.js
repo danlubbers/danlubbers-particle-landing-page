@@ -10,7 +10,8 @@ newFont
   })
   .then(() => {
     let particles = [];
-    let frequency = 40;
+    let frequency = 20;
+
     // Populate particles
     setInterval(() => populate(), frequency);
 
@@ -26,9 +27,6 @@ newFont
       width: window.innerWidth,
       height: window.innerHeight,
     });
-
-    let tela = c1.canvas;
-    let canvas = c1.context;
 
     document.querySelector("body").appendChild(c3.canvas);
 
@@ -66,7 +64,6 @@ newFont
       }
 
       move() {
-        //this.swapColor()
         this.x += Math.cos(this.a) * this.s;
         this.y += Math.sin(this.a) * this.s;
         this.a += Math.random() * 0.8 - 0.4;
@@ -83,10 +80,10 @@ newFont
       }
     }
 
-    function createCanvas(properties) {
+    function createCanvas({ width, height }) {
       let canvas = document.createElement("canvas");
-      canvas.width = properties.width;
-      canvas.height = properties.height;
+      canvas.width = width;
+      canvas.height = height;
       let context = canvas.getContext("2d");
       return {
         canvas,
@@ -94,34 +91,33 @@ newFont
       };
     }
 
-    function writeText(canvas, context, text) {
+    function writeText(canvas, ctx, text) {
       let size = 8;
-      context.font = `${size}rem Gotham-Thin`;
-      context.fillStyle = "#111111";
-      context.textAlign = "center";
-      context.fillText(text, canvas.width / 2, canvas.height / 2 - 175);
+      ctx.font = `${size}rem Gotham-Thin`;
+      ctx.fillStyle = "#111111";
+      ctx.textAlign = "center";
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2 - 175);
     }
 
     function maskCanvas() {
       c3.context.drawImage(c2.canvas, 0, 0, c2.canvas.width, c2.canvas.height);
       c3.context.globalCompositeOperation = "source-atop";
       c3.context.drawImage(c1.canvas, 0, 0);
-      blur(c1.context, c1.canvas, 2);
+      blur(c1.canvas, c1.context, 2);
     }
 
-    function blur(ctx, canvas, amt) {
+    function blur(canvas, ctx, amt) {
       ctx.filter = `blur(${amt}px)`;
       ctx.drawImage(canvas, 0, 0);
       ctx.filter = "none";
     }
 
-    /*
-     * Function to clear layer canvas
-     * @num:number number of particles
-     */
+    const dimensions_c1 = c1.canvas;
+    const ctx_c1 = c1.context;
+
     function populate() {
       particles.push(
-        new Particle(canvas, {
+        new Particle(ctx_c1, {
           x: window.innerWidth / 2,
           y: window.innerHeight / 2,
         })
@@ -129,23 +125,18 @@ newFont
     }
 
     function clear() {
-      canvas.globalAlpha = 0.03;
-      canvas.fillStyle = "#111111";
-      canvas.fillRect(0, 0, tela.width, tela.height);
-      canvas.globalAlpha = 1;
+      ctx_c1.globalAlpha = 0.03;
+      ctx_c1.fillStyle = "#333333";
+      ctx_c1.fillRect(0, 0, dimensions_c1.width, dimensions_c1.height);
+      ctx_c1.globalAlpha = 1;
     }
 
     function update() {
       clear();
-      particles = particles.filter((p) => p.move());
+      particles = particles.filter((particle) => particle.move());
       maskCanvas();
       requestAnimationFrame(update.bind(this));
     }
 
     update();
   });
-
-// Buttons
-// document.querySelector("#photography").addEventListener("click", () => {
-//   console.log("hit");
-// });
