@@ -1,0 +1,14 @@
+Developer / Photographer / Retoucher:           Dan Lubbers
+Web Development Site:                           https://webdev.danlubbers.com
+Photography Site:                               https://danlubbersphotographs.com
+Linkedin:                                       https://www.linkedin.com/in/danlubbers/
+Github:                                         https://github.com/danlubbers
+Contact:                                        lubbers [dot] dan [at] gmail [dot] com
+Current Location:                               Louisville, Kentucky, United States
+Previous Locations:                             Saratoga Springs, New York | Provo, Utah 
+
+/* SITE */
+Language:                                       English
+Doctype:                                        HTML5
+IDE:                                            VSCode 
+Standards:                                      HTML5, CSS3, JS
