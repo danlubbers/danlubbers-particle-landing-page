@@ -92,13 +92,14 @@ newFont
     }
 
     function writeText(canvas, ctx, text) {
-      if (canvas.width <= 768) {
-        let size = 4;
+      const responsiveWidth = 820;
+      if (canvas.width <= responsiveWidth) {
+        let size = 5;
         ctx.font = `${size}rem Gotham-Thin`;
         ctx.textAlign = "center";
         ctx.fillText(text, canvas.width / 2, canvas.height / 2 - 100);
       }
-      if (canvas.width > 768) {
+      if (canvas.width > responsiveWidth) {
         let size = 8;
         ctx.font = `${size}rem Gotham-Thin`;
         ctx.textAlign = "center";
