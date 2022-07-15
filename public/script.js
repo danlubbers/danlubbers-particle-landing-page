@@ -46,7 +46,7 @@ newFont
       }
 
       randomColor() {
-        let colors = ["#a52a25"];
+        let colors = ["#dc1008"];
         return colors[this.randomIntFromInterval(0, colors.length - 1)];
       }
 
@@ -92,11 +92,19 @@ newFont
     }
 
     function writeText(canvas, ctx, text) {
-      let size = 8;
-      ctx.font = `${size}rem Gotham-Thin`;
+      if (canvas.width <= 768) {
+        let size = 4;
+        ctx.font = `${size}rem Gotham-Thin`;
+        ctx.textAlign = "center";
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2 - 100);
+      }
+      if (canvas.width > 768) {
+        let size = 8;
+        ctx.font = `${size}rem Gotham-Thin`;
+        ctx.textAlign = "center";
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2 - 175);
+      }
       ctx.fillStyle = "#111111";
-      ctx.textAlign = "center";
-      ctx.fillText(text, canvas.width / 2, canvas.height / 2 - 175);
     }
 
     function maskCanvas() {
