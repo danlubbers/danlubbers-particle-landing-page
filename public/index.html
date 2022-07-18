@@ -17,12 +17,15 @@
   </head>
   <body>
     <main class="btn-container">
-      <button aria-label="link to photography & retouching website">
+      <button
+        id="photography"
+        aria-label="link to photography & retouching website"
+      >
         <a href="https://danlubbersphotographs.com" rel="noopener noreferrer">
           Photography / Retouching</a
         >
       </button>
-      <button aria-label="link to web development website">
+      <button id="web-development" aria-label="link to web development website">
         <a href="https://webdev.danlubbers.com" rel="noopener noreferrer">
           Web Development</a
         >
@@ -40,6 +43,12 @@
       ga.l = +new Date();
       ga("create", "UA-1733817-2", "auto");
       ga("send", "pageview");
+      ga(
+        "send",
+        "event",
+        "[danlubbers.com]",
+        "[danlubbers.com]: User landed on landing page"
+      );
     </script>
     <script async src="https://www.google-analytics.com/analytics.js"></script>
     <!-- End Google Analytics -->
