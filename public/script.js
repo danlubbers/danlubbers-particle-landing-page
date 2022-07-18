@@ -5,10 +5,7 @@ const newFont = new FontFace(
 
 newFont
   .load()
-  .then((font) => {
-    console.log("font", font);
-    document.fonts.add(font);
-  })
+  .then((font) => document.fonts.add(font))
   .then(() => {
     let particles = [];
     let frequency = 20;
