@@ -151,20 +151,20 @@ newFont
     update();
   });
 
-const googleClickEvent = (selector, description) => {
-  const button = document.querySelector(`#${selector}`);
+// const googleClickEvent = (selector, description) => {
+//   const button = document.querySelector(`#${selector}`);
 
-  button.addEventListener("click", () => {
-    ga("send", "event", "[danlubbers.com]", description);
-  });
-};
+//   button.addEventListener("click", () => {
+//     ga("send", "event", "[danlubbers.com]", description);
+//   });
+// };
 
-googleClickEvent(
-  "photography",
-  "[danlubbers.com]: User clicked Photographs/Retouching site link"
-);
+// googleClickEvent(
+//   "photography",
+//   "[danlubbers.com]: User clicked Photographs/Retouching site link"
+// );
 
-googleClickEvent(
-  "web-development",
-  "[danlubbers.com]: User clicked Web Development site link"
-);
+// googleClickEvent(
+//   "web-development",
+//   "[danlubbers.com]: User clicked Web Development site link"
+// );
