@@ -1,6 +1,6 @@
 const newFont = new FontFace(
   "Gotham-Thin",
-  `url("/assets/fonts/Gotham-Thin.otf")`
+  `url("assets/fonts/Gotham-Thin.otf")`
 );
 
 newFont
