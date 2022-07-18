@@ -3,27 +3,10 @@ const newFont = new FontFace(
   `url("/assets/fonts/Gotham-Thin.otf")`
 );
 
-const googleClickEvent = (selector, description) => {
-  const button = document.querySelector(`#${selector}`);
-
-  button.addEventListener("click", () => {
-    ga("send", "event", "[danlubbers.com]", description);
-  });
-};
-
-googleClickEvent(
-  "photography",
-  "[danlubbers.com]: User clicked Photographs/Retouching site link"
-);
-
-googleClickEvent(
-  "web-development",
-  "[danlubbers.com]: User clicked Web Development site link"
-);
-
 newFont
   .load()
   .then((font) => {
+    console.log("font", font);
     document.fonts.add(font);
   })
   .then(() => {
@@ -167,3 +150,21 @@ newFont
 
     update();
   });
+
+const googleClickEvent = (selector, description) => {
+  const button = document.querySelector(`#${selector}`);
+
+  button.addEventListener("click", () => {
+    ga("send", "event", "[danlubbers.com]", description);
+  });
+};
+
+googleClickEvent(
+  "photography",
+  "[danlubbers.com]: User clicked Photographs/Retouching site link"
+);
+
+googleClickEvent(
+  "web-development",
+  "[danlubbers.com]: User clicked Web Development site link"
+);
