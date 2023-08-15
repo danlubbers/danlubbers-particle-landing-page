@@ -34,23 +34,20 @@
     <script src="script.js"></script>
 
     <!-- Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-0GS0GXHCBM"
+    ></script>
     <script>
-      window.ga =
-        window.ga ||
-        function () {
-          (ga.q = ga.q || []).push(arguments);
-        };
-      ga.l = +new Date();
-      ga("create", "UA-1733817-2", "auto");
-      ga("send", "pageview");
-      ga(
-        "send",
-        "event",
-        "[danlubbers.com]",
-        "[danlubbers.com]: User landed on landing page"
-      );
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-0GS0GXHCBM");
     </script>
-    <script async src="https://www.google-analytics.com/analytics.js"></script>
     <!-- End Google Analytics -->
 
     <script type="application/ld+json">
